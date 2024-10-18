@@ -1,6 +1,6 @@
 // document.addEventListener("DOMContentLoaded",showRandomQuote);
 
-const form = document.getElementById("AddQuoteForm");
+const createAddQuoteForm = document.getElementById("AddQuoteForm");
 const button = document.getElementById("newQuote");
 const quoteDisplay = document.getElementById("quoteDisplay");
 
@@ -22,7 +22,7 @@ showRandomQuote = quotes[Math.floor(Math.random() * quotes.length)]
 }
 
 );
-form.addEventListener("submit", function(e){
+createAddQuoteForm.addEventListener("submit", function(e){
    e.preventDefault();    
 });
 
