@@ -1,31 +1,27 @@
-document.addEventListener("DOMContentLoaded",showRandomQuote);
+// document.addEventListener("DOMContentLoaded",showRandomQuote);
 
 const form = document.getElementById("AddQuoteForm");
 const button = document.getElementById("newQuote");
 const quoteDisplay = document.getElementById("quoteDisplay");
-const newQuoteText = document.getElementById("newQuoteText").value;
-const newQuoteCategory = document.getElementById("newQuoteCategory").value;
- 
-let quotes = ['i love you', 'i miss you'];
-  
 
+let quotes = [];
  function addQuote(){
-   quotes = [{QuoteText: newQuoteText},{category: newQuoteCategory}];
-  
-            
+  const text = document.getElementById("newQuoteText").value;
+  const category = document.getElementById("newQuoteCategory").value; 
+
+
+let object = {text: text, category: category}
+quotes.push(JSON.stringify(object));
+
  }
 
-function showRandomQuote(){
+button.addEventListener("click", function showRandomQuote(){
+  quoteDisplay.textContent = quotes;
+showRandomQuote = quotes[Math.floor(Math.random() * quotes.length)]
+   
+}
 
-// addQuote();  
-let showRandomQuote = quotes[Math.floor(Math.random() * quotes.length)]
-quoteDisplay.innerHTML = showRandomQuote;
-
-};
-    
-
-
-button.addEventListener("click", showRandomQuote);
+);
 form.addEventListener("submit", function(e){
    e.preventDefault();    
 });
