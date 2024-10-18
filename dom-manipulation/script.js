@@ -16,7 +16,7 @@ quotes.push(JSON.stringify(object));
  }
 
 button.addEventListener("click", function showRandomQuote(){
-  quoteDisplay.textContent = quotes;
+  quoteDisplay.innerHTML = quotes;
 showRandomQuote = quotes[Math.floor(Math.random() * quotes.length)]
    
 }
