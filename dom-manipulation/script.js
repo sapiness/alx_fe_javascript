@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded",createAddQuoteForm);
 const quotedisplay = document.getElementById("quoteDisplay");
 const shownewQuote = document.getElementById("newQuote");
@@ -46,9 +45,12 @@ let addbutton = document.createElement("button");
 
        function showRandomQuote(){
 
-        const results = Object.values(quotes);
-        console.log(results);
-        quotedisplay.innerHTML =JSON.stringify(results);
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+
+      
+        // quotes[randomIndex] = Object.values(quotes);
+        console.log(quotes[randomIndex]);
+        quotedisplay.innerHTML = JSON.stringify(quotes[randomIndex]);
        };
 
 addbutton.addEventListener("click", function(e){
@@ -64,34 +66,3 @@ shownewQuote.addEventListener("click", function(e){
     showRandomQuote();
 
 });
-// function loadTasks() {
-    
-// // check Local Storage for an existing list of tasks.
-// // Use localStorage.getItem('tasks') to retrieve the task list.
-//     const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-//     storedTasks.forEach(taskText => addTask(taskText, false)); // 'false' indicates not to save again to Local Storage
-// }
-
-// Adjust `addTask` to optionally save tasks to avoid duplication when loading from Local Storage
-function AddQuote(quotes, save = true) {
-    // Task creation logic remains the same
-
-    if (save) {
-        const storedTasks = JSON.parse(localStorage.getItem('quotes') || '[]');
-        storedTasks.push(quotes);
-        localStorage.setItem('quotes', JSON.stringify(storedTasks));
-    }
-};
-
-
-
-function importFromJsonFile(event) {
-  const fileReader = new FileReader();
-  fileReader.onload = function(event) {
-    const importedQuotes = JSON.parse(event.target.result);
-    quotes.push(...importedQuotes);
-    saveQuotes();
-    alert('Quotes imported successfully!');
-  };
-  fileReader.readAsText(event.target.files[0]);
-}
