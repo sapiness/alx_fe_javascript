@@ -1,4 +1,8 @@
-document.addEventListener("DOMContentLoaded",createAddQuoteForm);
+document.addEventListener("DOMContentLoaded",function(){
+    createAddQuoteForm();
+    loadquotes();
+});
+
 const quotedisplay = document.getElementById("quoteDisplay");
 const shownewQuote = document.getElementById("newQuote");
 const formdiv = document.querySelector("div");
@@ -67,6 +71,23 @@ shownewQuote.addEventListener("click", function(e){
     showRandomQuote();
 
 });
+
+function loadquotes() {
+    const storedQuote = JSON.parse(localStorage.getItem('quotes') || '[]');
+    storedQuote.forEach(newQuote => addTask(newQuote, false)); // 'false' indicates not to save again to Local Storage
+}
+
+// Adjust `addTask` to optionally save tasks to avoid duplication when loading from Local Storage
+function saveQuotes(newQuote,  save = true) {
+    // Task creation logic remains the same
+
+    if (save) {
+        const localStorage = JSON.parse(localStorage.getItem('quotes') || '[]');
+        localStorage.push(newQuote);
+        localStorage.setItem('quotes', JSON.stringify(storedQuote));
+    }
+}
+
 
 function importFromJsonFile(event) {
   const fileReader = new FileReader();
