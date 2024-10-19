@@ -1,35 +1,69 @@
 
-const createAddQuoteForm = document.getElementById("AddQuoteForm");
-const button = document.getElementById("newQuote");
-const quoteDisplay = document.getElementById("quoteDisplay");
+document.addEventListener("DOMContentLoaded",createAddQuoteForm);
+const quotedisplay = document.getElementById("quoteDisplay");
+const shownewQuote = document.getElementById("newQuote");
 
+// Create form inputs
+let newQuote = document.createElement('input');
+    newQuote.type = 'text';
+    newQuote.id = 'newQuoteText';
+    newQuote.placeholder = 'Enter a new quote';
 
-const quotes = [/*{text : "love what you do", category : "Hardwork"}*/];
-            
-function addQuote(){
-const text = document.getElementById("newQuoteText").value;
-const category = document.getElementById("newQuoteCategory").value; 
+let newCategory = document.createElement('input');
+    newCategory.type = 'text';
+    newCategory.id = 'newQuoteCategory';
+    newCategory.placeholder = 'Enter quote category';
 
-let object = {text : text, category : category};
-quotes.push(JSON.stringify(object));
+ // Create submit button
+let addbutton = document.createElement("button");
+    addbutton.id = 'addquote';
+    addbutton.textContent = "Add Quote";
 
+    let quotes = [];
+    function createAddQuoteForm(){
+        // Create form 
+        const Form = document.createElement("form");
+           // Add elements to form
+           Form.appendChild(newQuote);
+           Form.appendChild(newCategory);
+           Form.appendChild(addbutton);
+   
+           document.body.appendChild(Form);
+       };
 
- }
+       function AddQuote(){
+        const text = newQuote.value;
+        const category = newCategory.value;
 
-button.addEventListener("click", function showRandomQuote(e){
-  const paragraph = document.createElement('p');
-  quoteDisplay.appendChild(paragraph);
+        const quote = {
+            text: text,
+            category: category
 
-e = Math.floor(Math.random() * quotes.length)
-console.log(quotes[e]); 
-paragraph.innerHTML = quotes[e];
-}
+        };
 
-);
-createAddQuoteForm.addEventListener("submit", function(e){
-   e.preventDefault();    
+        quotes.push(quote);
+       };
+
+       function showRandomQuote(){
+
+        const results = Object.values(quotes);
+        console.log(results);
+        quotedisplay.innerHTML =JSON.stringify(results);
+       };
+
+addbutton.addEventListener("click", function(e){
+    e.preventDefault();
+    AddQuote();
+    newQuote.value = "";
+    newCategory.value = "";
+ 
 });
 
+shownewQuote.addEventListener("click", function(e){
+    e.preventDefault();
+    showRandomQuote();
+
+});
 // function loadTasks() {
     
 // // check Local Storage for an existing list of tasks.
@@ -39,7 +73,7 @@ createAddQuoteForm.addEventListener("submit", function(e){
 // }
 
 // Adjust `addTask` to optionally save tasks to avoid duplication when loading from Local Storage
-function addTask(quotes, save = true) {
+function AddQuote(quotes, save = true) {
     // Task creation logic remains the same
 
     if (save) {
