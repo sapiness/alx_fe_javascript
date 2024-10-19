@@ -30,6 +30,27 @@ createAddQuoteForm.addEventListener("submit", function(e){
    e.preventDefault();    
 });
 
+// function loadTasks() {
+    
+// // check Local Storage for an existing list of tasks.
+// // Use localStorage.getItem('tasks') to retrieve the task list.
+//     const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+//     storedTasks.forEach(taskText => addTask(taskText, false)); // 'false' indicates not to save again to Local Storage
+// }
+
+// Adjust `addTask` to optionally save tasks to avoid duplication when loading from Local Storage
+function addTask(quotes, save = true) {
+    // Task creation logic remains the same
+
+    if (save) {
+        const storedTasks = JSON.parse(localStorage.getItem('quotes') || '[]');
+        storedTasks.push(quotes);
+        localStorage.setItem('quotes', JSON.stringify(storedTasks));
+    }
+};
+
+
+
 function importFromJsonFile(event) {
   const fileReader = new FileReader();
   fileReader.onload = function(event) {
