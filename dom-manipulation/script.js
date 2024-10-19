@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded",createAddQuoteForm);
 const quotedisplay = document.getElementById("quoteDisplay");
 const shownewQuote = document.getElementById("newQuote");
+const formdiv = document.querySelector("div");
 
 // Create form inputs
 let newQuote = document.createElement('input');
@@ -27,7 +28,7 @@ let addbutton = document.createElement("button");
            Form.appendChild(newCategory);
            Form.appendChild(addbutton);
    
-           document.body.appendChild(Form);
+           formdiv.appendChild(Form);
        };
 
        function AddQuote(){
@@ -47,9 +48,9 @@ let addbutton = document.createElement("button");
 
         const randomIndex = Math.floor(Math.random() * quotes.length);
 
-      
+
         // quotes[randomIndex] = Object.values(quotes);
-        console.log(quotes[randomIndex]);
+        // console.log(quotes[randomIndex]);
         quotedisplay.innerHTML = JSON.stringify(quotes[randomIndex]);
        };
 
@@ -66,3 +67,14 @@ shownewQuote.addEventListener("click", function(e){
     showRandomQuote();
 
 });
+
+function importFromJsonFile(event) {
+  const fileReader = new FileReader();
+  fileReader.onload = function(event) {
+    const importedQuotes = JSON.parse(event.target.result);
+    quotes.push(...importedQuotes);
+    saveQuotes();
+    alert('Quotes imported successfully!');
+  };
+  fileReader.readAsText(event.target.files[0]);
+}
