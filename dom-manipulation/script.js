@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded",function(){
     createAddQuoteForm();
-    // loadquotes();
+    loadquotes();
 });
 
 const quotedisplay = document.getElementById("quoteDisplay");
@@ -68,3 +68,13 @@ shownewQuote.addEventListener("click", function(e){
     showRandomQuote();
 
 });
+
+
+function loadquotes(){
+
+let MyObj_2 = JSON.parse(localStorage.getItem("quotes") || '[]');
+let MyObj = JSON.stringify(quotes);
+localStorage.setItem("quotes", MyObj);
+
+}
+
