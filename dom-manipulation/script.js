@@ -24,6 +24,8 @@ let addbutton = document.createElement("button");
     addbutton.textContent = "Add Quote";
 
     let quotes = [];
+   
+
     function createAddQuoteForm(){
         // Create form 
         const Form = document.createElement("form");
@@ -35,15 +37,15 @@ let addbutton = document.createElement("button");
            formdiv.appendChild(Form);
        };
 
-       function AddQuote(){
+       function addQuote(){
         const text = newQuote.value;
-        const category = newCategory.value;
+    const category = newCategory.value;
 
-        const quote = {
-            text: text,
-            category: category
+    const quote = {
+        text: text,
+        category: category
 
-        };
+    };
 
         quotes.push(quote);
        };
@@ -60,7 +62,7 @@ let addbutton = document.createElement("button");
 
 addbutton.addEventListener("click", function(e){
     e.preventDefault();
-    AddQuote();
+    addQuote();
     newQuote.value = "";
     newCategory.value = "";
  
@@ -72,41 +74,36 @@ shownewQuote.addEventListener("click", function(e){
 
 });
 
+
+
 function loadquotes() {
-    const storedQuote = JSON.parse(localStorage.getItem('quote') || '[]');
+
+    const storedQuote = JSON.parse(localStorage.getItem('quotes') || '[]');
     storedQuote.forEach(newQuote => AddQuote(newQuote, false)); // 'false' indicates not to save again to Local Storage
-}
+};
 
 // Adjust `addTask` to optionally save tasks to avoid duplication when loading from Local Storage
-function AddQuote(newQuote,  save = true) {
+function addQuote(quotes, save = true) {
     // Task creation logic remains the same
 
     if (save) {
-        const localStorage = JSON.parse(localStorage.getItem('quote') || '[]');
-        localStorage.push(newQuote);
-        localStorage.setItem('quote', JSON.stringify(storedQuote));
+        const storedTasks = JSON.parse(localStorage.getItem('quotes') || '[]');
+        storedTasks.push(quotes);
+        localStorage.setItem('quotes', JSON.stringify(storedTasks));
     }
-}
-
+};
 
 function importFromJsonFile(event) {
-  const fileReader = new FileReader();
-  fileReader.onload = function(event) {
-    const importedQuotes = JSON.parse(event.target.result);
-    quotes.push(...importedQuotes);
-    AddQuote();
-    alert('Quotes imported successfully!');
-  };
-  fileReader.readAsText(event.target.files[0]);
-}
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      saveQuotes();
+      alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
+  }
 
-// function exportFromJsonFile(event) {
-//     const fileReader = new ();
-//     fileReader.onload = function(event) {
-//       const importedQuotes = JSON.parse(event.target.result);
-//       quotes.push(...importedQuotes);
-//       saveQuotes();
-//       alert('Quotes imported successfully!');
-//     };
-//     fileReader.readAsText(event.target.files[0]);
-//   }
+
+
+
