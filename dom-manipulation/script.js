@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded",function(){
     createAddQuoteForm();
-    loadquotes();
+   let objects = localStorage.getItem("quotes");
+   if (objects == null){
+    return;
+   };
+      
+   quotes = JSON.parse(objects);
 });
 
 const quotedisplay = document.getElementById("quoteDisplay");
@@ -23,10 +28,10 @@ let addbutton = document.createElement("button");
     addbutton.id = 'addquote';
     addbutton.textContent = "Add Quote";
 
-    const quotes = [{quotetext: "love yourself", 
-        quotecategory: "love"}];
+    let quotes = [{quotetext: "love yourself", 
+                    quotecategory: "love"}];
         
-   
+  
     function createAddQuoteForm(){
         // Create form 
         const Form = document.createElement("form");
@@ -43,6 +48,7 @@ let addbutton = document.createElement("button");
         const category = newCategory.value;
 
         quotes.push({quotetext: text, quotecategory: category});
+        saveQuotes();
        };
 
        function showRandomQuote(){
@@ -70,11 +76,34 @@ shownewQuote.addEventListener("click", function(e){
 });
 
 
-function loadquotes(){
+function saveQuotes(){
+    let ObjectToString = JSON.stringify(quotes);
+localStorage.setItem("quotes", ObjectToString);
+  
 
-let MyObj_2 = JSON.parse(localStorage.getItem("quotes") || '[]');
-let MyObj = JSON.stringify(quotes);
-localStorage.setItem("quotes", MyObj);
+};
 
-}
 
+function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      saveQuotes();
+      alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
+  };
+
+["application/json", "Blob"]
+
+function filterQuotes(){
+
+
+
+};
+
+function populateCategories(){
+
+
+};
