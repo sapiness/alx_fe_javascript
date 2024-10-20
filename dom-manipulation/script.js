@@ -73,18 +73,18 @@ shownewQuote.addEventListener("click", function(e){
 });
 
 function loadquotes() {
-    const storedQuote = JSON.parse(localStorage.getItem('quotes') || '[]');
-    storedQuote.forEach(newQuote => addTask(newQuote, false)); // 'false' indicates not to save again to Local Storage
+    const storedQuote = JSON.parse(localStorage.getItem('quote') || '[]');
+    storedQuote.forEach(newQuote => AddQuote(newQuote, false)); // 'false' indicates not to save again to Local Storage
 }
 
 // Adjust `addTask` to optionally save tasks to avoid duplication when loading from Local Storage
-function saveQuotes(newQuote,  save = true) {
+function AddQuote(newQuote,  save = true) {
     // Task creation logic remains the same
 
     if (save) {
-        const localStorage = JSON.parse(localStorage.getItem('quotes') || '[]');
+        const localStorage = JSON.parse(localStorage.getItem('quote') || '[]');
         localStorage.push(newQuote);
-        localStorage.setItem('quotes', JSON.stringify(storedQuote));
+        localStorage.setItem('quote', JSON.stringify(storedQuote));
     }
 }
 
@@ -94,8 +94,19 @@ function importFromJsonFile(event) {
   fileReader.onload = function(event) {
     const importedQuotes = JSON.parse(event.target.result);
     quotes.push(...importedQuotes);
-    saveQuotes();
+    AddQuote();
     alert('Quotes imported successfully!');
   };
   fileReader.readAsText(event.target.files[0]);
 }
+
+// function exportFromJsonFile(event) {
+//     const fileReader = new ();
+//     fileReader.onload = function(event) {
+//       const importedQuotes = JSON.parse(event.target.result);
+//       quotes.push(...importedQuotes);
+//       saveQuotes();
+//       alert('Quotes imported successfully!');
+//     };
+//     fileReader.readAsText(event.target.files[0]);
+//   }
