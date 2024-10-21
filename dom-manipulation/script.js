@@ -111,12 +111,19 @@ function exportToJsonFile(data, filename) {
   
 
 function filterQuotes(){
-
+    populateCategories()
 
 
 };
 
 function populateCategories(){
+    const uniqueCategories = [...new Set(quotes.map((item) => item.quotecategory))];
 
-
+    const dropdown = document.getElementById("categoryFilter");
+uniqueCategories.forEach((category) => {
+  const option = document.createElement("option");
+  option.value = category;
+  option.text = category;
+  dropdown.appendChild(option);
+});
 };
