@@ -54,10 +54,6 @@ let addbutton = document.createElement("button");
        function showRandomQuote(){
 
         const randomIndex = Math.floor(Math.random() * quotes.length);
-
-
-        // quotes[randomIndex] = Object.values(quotes);
-        // console.log(quotes[randomIndex]);
         quotedisplay.innerHTML = JSON.stringify(quotes[randomIndex]);
        };
 
@@ -84,8 +80,20 @@ localStorage.setItem("quotes", ObjectToString);
 };
 
 
+function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      saveQuotes();
+      alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
+  };
+
+
 function exportToJsonFile(data, filename) {
-    const blob = new Blob([data], { type: "application/json" });
+    const blob = new Blob([data], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;

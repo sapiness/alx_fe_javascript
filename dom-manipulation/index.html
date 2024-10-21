@@ -13,13 +13,14 @@
     <br>
     <div id="quoteDisplay"></div><br>
     <button id="newQuote">Show New Quote</button><br><br>
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)"/>
     <button onclick="link.click()">Export Quotes</button>
 
     <select id="categoryFilter" onchange="filterQuotes()">
       <option value="all">All Categories</option>
       <!-- Dynamically populated categories -->
     </select>
+    <script src="script.js"></script>
   </body>
-  <script src="script.js"></script>
+  
   </html>
