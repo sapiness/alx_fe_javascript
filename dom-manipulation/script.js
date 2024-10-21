@@ -84,18 +84,23 @@ localStorage.setItem("quotes", ObjectToString);
 };
 
 
-function importFromJsonFile(event) {
-    const fileReader = new FileReader();
-    fileReader.onload = function(event) {
-      const importedQuotes = JSON.parse(event.target.result);
-      quotes.push(...importedQuotes);
-      saveQuotes();
-      alert('Quotes imported successfully!');
-    };
-    fileReader.readAsText(event.target.files[0]);
-  };
-
-["application/json", "Blob"]
+function exportToJsonFile(data, filename) {
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.addEventListener("click", () => {
+      URL.revokeObjectURL(url);
+    });
+    return link;
+  }
+  const data = "Hello, World!";
+  const filename = "sample1.json";
+  const link = exportToJsonFile(data, filename);
+   // Simulate click to download
+  
 
 function filterQuotes(){
 
