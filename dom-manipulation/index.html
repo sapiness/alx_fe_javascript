@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
     <title>Dynamic Quote Generator</title>
   </head>
   <body>
@@ -10,16 +11,17 @@
     <div>
 
     </div>
-    <br>
+    <br><br>
     <div id="quoteDisplay"></div><br>
-    <button id="newQuote">Show New Quote</button><br><br>
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)"/>
-    <button onclick="link.click()">Export Quotes</button>
-
+    <button id="newQuote">Show New Quote</button>
     <select id="categoryFilter" onchange="filterQuotes()">
       <option value="all">All Categories</option>
       <!-- Dynamically populated categories -->
-    </select>
+    </select><br><br>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)"/>
+    <button onclick=" exportToJsonFile()">Export Quotes</button>
+
+    
     <script src="script.js"></script>
   </body>
   
