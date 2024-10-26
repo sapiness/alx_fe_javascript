@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createAddQuoteForm();
         populateCategories();
         filterQuotes();
+        syncQuotes();
        let parsedQuotes = localStorage.getItem("quotes");
        if (parsedQuotes == null){
         return;
@@ -217,8 +218,13 @@ document.addEventListener('DOMContentLoaded', () => {
        
     });
     
-
 function syncQuotes(){
 
+
+let fetch = setInterval(fetchQuotesFromServer, 10000);
+clearInterval(fetch);
+
+let save = setInterval(saveQuotes, 10000);
+clearInterval(save);
 };
  
