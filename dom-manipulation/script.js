@@ -221,8 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function syncQuotes(){
   fetchQuotesFromServer();
   saveQuotes();
+  alert("Quotes synced with server!");
 };
 
 
-setInterval(syncQuotes, 10000);
+setInterval(syncQuotes, 100000);
 // clearInterval(fetch);
