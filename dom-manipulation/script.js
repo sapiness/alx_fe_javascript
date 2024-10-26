@@ -27,8 +27,6 @@ let addbutton = document.createElement("button");
         
   
     function createAddQuoteForm(){
-      const text = newQuote.value;
-    const category = newCategory.value;
 
         // Create form 
         const Form = document.createElement("form");
@@ -39,40 +37,17 @@ let addbutton = document.createElement("button");
            Form.appendChild(addbutton);
    
            formdiv.appendChild(Form);
-
            Form.addEventListener("submit", function(e){
             e.preventDefault();
             addQuote();
-           
-            fetch("https://jsonplaceholder.typicode.com/posts",{
-              method:"POST",
-              body:JSON.stringify({
-                quotetext: text,
-                quotecategory:category,
+            fetchQuotesFromServer();
+          newQuote.value = "";
+        newCategory.value = "";
+           });
+          
+        };
 
-              }),
-              headers: {
-                "Content-Type": "application/json"
-              },
-            })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-              return response.json();
-            })
-            .then(data => { 
-              console.log('Success',data);
-            })
-            .catch(error => {
-              console.error('Error:', error);
-          });
-        });
-      
-        // newQuote.value = "";
-        // newCategory.value = "";
-       };
-
+          
        function addQuote(){
     const text = newQuote.value;
     const category = newCategory.value;
@@ -90,16 +65,8 @@ let addbutton = document.createElement("button");
        function showRandomQuote(){
 
         const randomIndex = Math.floor(Math.random() * quotes.length);
-        quotedisplay.innerHTML = JSON.stringify(quotes[randomIndex]);
+        quotedisplay.innerHTML = `${quotes[randomIndex].quotetext},${quotes[randomIndex].quotecategory}`;
        };
-
-// Form.addEventListener("submit", function(e){
-//     e.preventDefault();
-//     addQuote();
-//     newQuote.value = "";
-//     newCategory.value = "";
- 
-// });
 
 shownewQuote.addEventListener("click", function(e){
     e.preventDefault();
@@ -107,7 +74,6 @@ shownewQuote.addEventListener("click", function(e){
     quotedisplay.style.display = "block"
 
 });
-
 
 function saveQuotes(){
     let ObjectToString = JSON.stringify(quotes);
@@ -222,3 +188,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 
+
+ 
+  
+  function fetchQuotesFromServer(){
+      const text = newQuote.value;
+      const category = newCategory.value;
+      // const results = document.getElementById("quotedisplay");
+  
+      fetch('https://jsonplaceholder.typicode.com/posts',{
+          method:'POST',
+          body:JSON.stringify({
+              quoteText: text,
+              quoteCategory: category,
+          }),
+     headers:{
+      "content-Type":"application/json; charset=UTF-8"
+     }
+     
+      })
+      .then(response => {
+          return response.json()
+      })
+      .then(data => {
+          console.log(data)
+          // results.innerHTML = `${data.quoteText},${data.quoteCategory}`;
+  
+      })
+  
+  }
