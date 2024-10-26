@@ -26,6 +26,36 @@ let addbutton = document.createElement("button");
                     quotecategory: "success"}];
         
   
+                    async function fetchQuotesFromServer(){
+
+                      const text = newQuote.value;
+                      const category = newCategory.value;
+                  
+                          try {
+                            const response = await  fetch('https://jsonplaceholder.typicode.com/posts',{
+                                      method:'POST',
+                                      body:JSON.stringify({
+                                          quoteText: text,
+                                          quoteCategory: category,
+                                      }),
+                                 headers:{
+                                  "Content-Type":"application/json; charset=UTF-8"
+                                 }
+                                 
+                                  })
+                        
+                  
+                            if (!response.ok) {
+                              throw new Error('Network response was not ok');
+                            }
+                        
+                            const data = await response.json(); 
+                            console.log('Success:', data); 
+                          } catch (error) {
+                            console.error('Error:', error);
+                          }
+                        };
+                        
     function createAddQuoteForm(){
 
         // Create form 
@@ -188,35 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 
+function syncQuotes(){
 
+};
  
-    async function fetchQuotesFromServer(){
-
-      const text = newQuote.value;
-      const category = newCategory.value;
-  
-          try {
-            const response = await  fetch('https://jsonplaceholder.typicode.com/posts',{
-                      method:'POST',
-                      body:JSON.stringify({
-                          quoteText: text,
-                          quoteCategory: category,
-                      }),
-                 headers:{
-                  "content-Type":"application/json; charset=UTF-8"
-                 }
-                 
-                  })
-        
-  
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-        
-            const data = await response.json(); 
-            console.log('Success:', data); 
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        };
-        
