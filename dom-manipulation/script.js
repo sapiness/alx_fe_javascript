@@ -3,7 +3,7 @@
 
 const quotedisplay = document.getElementById("quoteDisplay");
 const shownewQuote = document.getElementById("newQuote");
-const formdiv = document.querySelector("div");
+const formdiv = document.getElementById("form");
 
 // Create form inputs
 let newQuote = document.createElement('input');
@@ -21,46 +21,90 @@ let addbutton = document.createElement("button");
     addbutton.id = 'addquote';
     addbutton.textContent = "Add Quote";
 
-    let quotes = [{quotetext: "love yourself", 
-                    quotecategory: "love"}];
+    
+    let quotes = [{quotetext: "Strive not to be a success, but rather to be of value", 
+                    quotecategory: "success"}];
         
   
     function createAddQuoteForm(){
+      const text = newQuote.value;
+    const category = newCategory.value;
+
         // Create form 
         const Form = document.createElement("form");
+      //  Form.method = "POST";
            // Add elements to form
            Form.appendChild(newQuote);
            Form.appendChild(newCategory);
            Form.appendChild(addbutton);
    
            formdiv.appendChild(Form);
+
+           Form.addEventListener("submit", function(e){
+            e.preventDefault();
+            addQuote();
+           
+            fetch("https://jsonplaceholder.typicode.com/posts",{
+              method:"POST",
+              body:JSON.stringify({
+                quotetext: text,
+                quotecategory:category,
+
+              }),
+              headers: {
+                "Content-Type": "application/json"
+              },
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+              return response.json();
+            })
+            .then(data => { 
+              console.log('Success',data);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+          });
+        });
+      
+        // newQuote.value = "";
+        // newCategory.value = "";
        };
 
        function addQuote(){
-        const text = newQuote.value;
-        const category = newCategory.value;
+    const text = newQuote.value;
+    const category = newCategory.value;
+
+        
+        if (text == "" && category == ""){
+        alert("Enter quote and category");
+        return;
+        } else {
 
         quotes.push({quotetext: text, quotecategory: category});
         saveQuotes();
-       };
-
+       }
+      };
        function showRandomQuote(){
 
         const randomIndex = Math.floor(Math.random() * quotes.length);
         quotedisplay.innerHTML = JSON.stringify(quotes[randomIndex]);
        };
 
-addbutton.addEventListener("click", function(e){
-    e.preventDefault();
-    addQuote();
-    newQuote.value = "";
-    newCategory.value = "";
+// Form.addEventListener("submit", function(e){
+//     e.preventDefault();
+//     addQuote();
+//     newQuote.value = "";
+//     newCategory.value = "";
  
-});
+// });
 
 shownewQuote.addEventListener("click", function(e){
     e.preventDefault();
     showRandomQuote();
+    quotedisplay.style.display = "block"
 
 });
 
@@ -103,7 +147,6 @@ try {
  }
 };
 
-
 function populateCategories(){
   let storedQuotes = localStorage.getItem("quotes");
     // Check if data exists
@@ -142,12 +185,30 @@ function populateCategories(){
           document.getElementById('quoteDisplay').innerHTML += `
             <p>${quote.quotetext}</p>`
           ;
+        //   const filtered = JSON.stringify(filteredQuotes);
+        //  sessionStorage.setItem("filteredquotes", filtered);
+
         });
       };
+
+     
     };
 
+    categoryFilter.addEventListener("onchange", function() {
+      quotedisplay.style.display = "block"
+    });
 
-    document.addEventListener("DOMContentLoaded",function(){
+// Store and retrieve selected category
+const categorySelect = document.getElementById('categoryFilter');
+categorySelect.addEventListener('change', () => {
+  localStorage.setItem('selectedCategory', categorySelect.value);
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const selectedCategory = localStorage.removeItem('selectedCategory');
+  if (selectedCategory) {
+    categorySelect.value = selectedCategory;
+  }
+
         createAddQuoteForm();
         populateCategories();
         filterQuotes();
@@ -157,14 +218,7 @@ function populateCategories(){
        };
           
        quotes = JSON.parse(parsedQuotes);
+       
     });
     
-
-
-
-
-
-
-
-
 
