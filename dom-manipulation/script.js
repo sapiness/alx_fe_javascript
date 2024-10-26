@@ -68,59 +68,59 @@ let addbutton = document.createElement("button");
         quotedisplay.innerHTML = `${quotes[randomIndex].quotetext},${quotes[randomIndex].quotecategory}`;
        };
 
-shownewQuote.addEventListener("click", function(e){
-    e.preventDefault();
-    showRandomQuote();
-    quotedisplay.style.display = "block"
+    shownewQuote.addEventListener("click", function(e){
+        e.preventDefault();
+        showRandomQuote();
+        quotedisplay.style.display = "block"
 
-});
+    });
 
-function saveQuotes(){
-    let ObjectToString = JSON.stringify(quotes);
-localStorage.setItem("quotes", ObjectToString);
-  
-};
+    function saveQuotes(){
+        let ObjectToString = JSON.stringify(quotes);
+    localStorage.setItem("quotes", ObjectToString);
+      
+    };
 
 
-function importFromJsonFile(event) {
-  const fileReader = new FileReader();
-  fileReader.onload = function(event) {
-    const importedQuotes = JSON.parse(event.target.result);
-    quotes.push(...importedQuotes);
-    saveQuotes();
-    alert('Quotes imported successfully!');
+  function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      saveQuotes();
+      alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
+  }
+
+
+    function exportToJsonFile(){
+      // Retrieve quotes from local storage
+  const storedQuotes = localStorage.getItem('quotes');
+  try {
+    const parsedQuotes = JSON.parse(storedQuotes);
+    // Create JSON blob
+    const jsonBlob = new Blob([JSON.stringify(parsedQuotes, null, 2)], { type: 'application/json' });
+    // Create link to download JSON file
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(jsonBlob);
+    link.download = 'quotes.json';
+    link.click();
+    // Clean up
+    URL.revokeObjectURL(link.href);
+  } catch {
+    console.log('No quotes found in local storage');
+  }
   };
-  fileReader.readAsText(event.target.files[0]);
-}
 
-
-  function exportToJsonFile(){
-    // Retrieve quotes from local storage
- const storedQuotes = localStorage.getItem('quotes');
-try {
-   const parsedQuotes = JSON.parse(storedQuotes);
-   // Create JSON blob
-   const jsonBlob = new Blob([JSON.stringify(parsedQuotes, null, 2)], { type: 'application/json' });
-   // Create link to download JSON file
-   const link = document.createElement('a');
-   link.href = URL.createObjectURL(jsonBlob);
-   link.download = 'quotes.json';
-   link.click();
-   // Clean up
-   URL.revokeObjectURL(link.href);
- } catch {
-   console.log('No quotes found in local storage');
- }
-};
-
-function populateCategories(){
-  let storedQuotes = localStorage.getItem("quotes");
-    // Check if data exists
-    if (storedQuotes) {
-      // Parse data from string to JSON
-      const parsedQuotes = JSON.parse(storedQuotes);
-      // Extract quote categories and populate to drowpdown
-     
+  function populateCategories(){
+    let storedQuotes = localStorage.getItem("quotes");
+      // Check if data exists
+      if (storedQuotes) {
+        // Parse data from string to JSON
+        const parsedQuotes = JSON.parse(storedQuotes);
+        // Extract quote categories and populate to drowpdown
+      
       const categoryFilter = document.getElementById("categoryFilter");
       const uniqueOptions = [...new Set(parsedQuotes.map((quote) => quote.quotecategory))];
       uniqueOptions.forEach((option) => {
@@ -190,30 +190,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
  
-  
-  function fetchQuotesFromServer(){
+    async function fetchQuotesFromServer(){
+
       const text = newQuote.value;
       const category = newCategory.value;
-      // const results = document.getElementById("quotedisplay");
   
-      fetch('https://jsonplaceholder.typicode.com/posts',{
-          method:'POST',
-          body:JSON.stringify({
-              quoteText: text,
-              quoteCategory: category,
-          }),
-     headers:{
-      "content-Type":"application/json; charset=UTF-8"
-     }
-     
-      })
-      .then(response => {
-          return response.json()
-      })
-      .then(data => {
-          console.log(data)
-          // results.innerHTML = `${data.quoteText},${data.quoteCategory}`;
+          try {
+            const response = await  fetch('https://jsonplaceholder.typicode.com/posts',{
+                      method:'POST',
+                      body:JSON.stringify({
+                          quoteText: text,
+                          quoteCategory: category,
+                      }),
+                 headers:{
+                  "content-Type":"application/json; charset=UTF-8"
+                 }
+                 
+                  })
+        
   
-      })
-  
-  }
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+        
+            const data = await response.json(); 
+            console.log('Success:', data); 
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        };
+        
