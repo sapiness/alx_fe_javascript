@@ -219,12 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 function syncQuotes(){
-
-
-let fetch = setInterval(fetchQuotesFromServer, 10000);
-clearInterval(fetch);
-
-let save = setInterval(saveQuotes, 10000);
-clearInterval(save);
+  fetchQuotesFromServer();
+  saveQuotes();
 };
- 
+
+
+setInterval(syncQuotes, 10000);
+// clearInterval(fetch);
